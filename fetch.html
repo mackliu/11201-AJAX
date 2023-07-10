@@ -7,12 +7,44 @@
     <title>Fetch</title>
     <link rel="shortcut icon" href="#" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <style>
+        .name {
+    font-size: 24px;
+    width: 90%;
+    color: darkblue;
+    text-shadow: 2px 2px 2px skyblue;
+}
+
+.content {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+li {
+    width: 20%;
+    display: inline-block;
+    margin: 1%;
+    box-shadow: 2px 2px 10px #ccc;
+    padding:10px;
+    vertical-align: top;
+    transition: all 0.5s;
+}
+li:hover{
+    transform: scale(1.15);
+    transition: all 0.5s;
+}
+    </style>
 </head>
 <body>
     <h1 class="header">Fetch</h1>
     <div class="title"></div>
+
     <h4></h4>
-    <ul></ul>
+    <ul class="event-list">
+
+    </ul>
     
 </body>
 </html>
@@ -23,12 +55,36 @@
     * 3.建立回呼函式(call back function)來處理回應時的各項行為
     * 4.建立錯誤處理
     ********************************************************/
-
     //建立FETCH請求及實質內容
-
+    fetch('https://kktix.com/events.json',{method:'get'})
+    .then((res)=>{
+       return res.json()
+    })
+    .then((data)=>{
+        console.log(data)
+        events(data)
+    })
 
     //建立回呼函式(call back function)來處理回應時的各項行為
+    function events(json){
+        let events=json
+        //console.log(events)
+        let title=events.title
+        $(".title").text(title)
+        
+        let entry=events.entry
+        entry.forEach((event,idx)=>{
+            let content=event.content.split("\n").map((item,idx)=>{return item.split("：")});
+            console.log(content)
 
+            let li=`<li>
+                        <div class="name">${event.title}</div>
+                        <div class="content">${content[0][1]}</div>
+                        <div class="content">${content[1][1]}</div>
+                    </li>`;
+            $(".event-list").append(li);
+        })
+    }
 
     //建立錯誤處理
 
