@@ -57,7 +57,7 @@ li:hover{
     ********************************************************/
      
     //利用$.ajax()方法傳送請求並取得回應
-    $.ajax(
+   /*  $.ajax(
       {
         url:'https://kktix.com/events.json',
         type:'get',
@@ -69,7 +69,7 @@ li:hover{
           console.log("請求失敗")
         }
       }
-    )  
+    )  */ 
 
     function events(json){
         let events=json
@@ -90,7 +90,12 @@ li:hover{
             $(".event-list").append(li);
         })
     }
-    //利用$.get()方法傳送請求並取得回應
 
+    //利用$.get()方法傳送請求並取得回應
+    $.get("https://kktix.com/events.json",(res)=>{
+        //console.log(res)
+        events(res)
+    })
+  
 
   </script>
