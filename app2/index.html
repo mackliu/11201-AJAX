@@ -8,12 +8,20 @@
     <link rel="shortcut icon" href="#" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <!---匯入要使用的函式庫--->
-
-
+    <script src="./jquery-2.1.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </head>
 <body>
   <h1 class="header">學生資料管理系統</h1>
+  <button onclick="allStudents()">顯示所有學生</button>
+  <div id="classes">
+    <button>一年一班</button>
+    <button>一年二班</button>
+  </div>
+  <div id="students">
 
+  </div>
   
 </body>
 </html>
@@ -33,8 +41,27 @@ function create(){
 }
 
 //查詢資料的函式
-function query(){
+queryClasses();
 
+function queryClasses(){
+  $.get("./api/classes.php",(classes)=>{
+    $("#classes").html(classes)
+  })
+}
+
+function allStudents(){
+
+  $.get("./api/all.php",(students)=>{
+  //$.get("http://220.128.133.15/s1120226/all.php",(students)=>{
+
+    $("#students").html(students);
+  })
+}
+
+function query(classroom){
+  $.get("./api/query.php",{classroom},(students)=>{
+    $("#students").html(students)
+  })
 }
 
 //編輯資料的函式
