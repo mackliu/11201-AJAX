@@ -50,11 +50,14 @@ function queryClasses(){
 }
 
 function allStudents(){
-
   $.get("./api/all.php",(students)=>{
   //$.get("http://220.128.133.15/s1120226/all.php",(students)=>{
-
-    $("#students").html(students);
+    console.log(students)
+    let list='';
+    students.forEach((stu)=>{
+      list=list + stu.name + '-' + stu.birthday +"<br>";
+    })
+    $("#students").html(list);
   })
 }
 
