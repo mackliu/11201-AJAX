@@ -98,24 +98,26 @@ function queryClasses(){
 }
 
 function allStudents(){
+  now=0
   $.get("./api/all.php",(students)=>{
   //$.get("http://220.128.133.15/s1120226/all.php",(students)=>{
     console.log(students)
     let list='';
     students.forEach((stu)=>{
-      list=list + stu.name + '-' + stu.birthday +"<br>";
+      list=list+"<div class='m-2'>";
+      list=list + stu.name + '-' + stu.birthday;
+      list=list+"<button class='btn btn-success mx-2'>編輯</button>";
+      list=list+`<button class='btn btn-danger del' data-id='${stu.id}'>刪除</button>`;
+      list=list +"</div>";
     })
     $("#students").html(list);
+    regDel();
+    
   })
 }
 
-let now;
-
-function query(classroom){
-  now=classroom
-  $.get("./api/query.php",{classroom},(students)=>{
-    $("#students").html(students)
-    $(".del").on('click',function(){
+function regDel(){
+  $(".del").on('click',function(){
       let id=$(this).data('id')
 
       $("#modal").load("confirm.php",{id},function(){
@@ -131,8 +133,15 @@ function query(classroom){
       })
 
     })
+}
 
+let now;
 
+function query(classroom){
+  now=classroom
+  $.get("./api/query.php",{classroom},(students)=>{
+    $("#students").html(students)
+      regDel();
   })
 }
 
@@ -146,7 +155,11 @@ function del(id){
   console.log('del');
   $.post("./api/delete.php",{id},()=>{
       windows.hide()
-      query(now)
+      if(now!=0){
+        query(now)
+      }else{
+        allStudents();
+      }
   })
 }
 </script>
