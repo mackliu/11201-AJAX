@@ -14,7 +14,7 @@
 </head>
 <body>
   <h1 class="header">學生資料管理系統</h1>
-  <button onclick="allStudents()">顯示所有學生</button>
+  <button onclick="allStudents()" class="btn btn-warning btn-lg">顯示所有學生</button>
   <button type="button" class="btn btn-primary" onclick="addModal()">
     新增學生
   </button>
@@ -158,16 +158,28 @@ let now;
 
 function query(classroom){
   now=classroom
-  $.get("./api/query.php",{classroom},(students)=>{
-    $("#students").html(students)
-      regDel();
-      regEdit()
-  })
+  if(now==0){
+    allStudents()
+  }else{
+    $.get("./api/query.php",{classroom},(students)=>{
+      $("#students").html(students)
+        regDel();
+        regEdit()
+    })
+  }
 }
 
 //編輯資料的函式
 function editStudent(){
-
+  let form=$("#editModal input")
+  let data=getForm(form)
+  //console.log(data);
+  $.post("./api/update.php",data,(res)=>{
+    //console.log(res)
+      alert("更新成功")
+      windows.hide()
+      query(now)
+  })
 }
 
 //刪除資料的函式

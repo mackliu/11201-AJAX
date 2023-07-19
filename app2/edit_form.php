@@ -44,6 +44,7 @@ $user=$pdo->query("select * from students where id='{$_POST['id']}'")->fetch();
                     <div class="row my-1">
                         <label for="" class="form-label col-3">畢業國中:</label>
                         <input type="text" value="<?=$user['secondary'];?>" class="form-control" id="secondary" style="width:75%"></div>
+                        <input type="hidden" name="id" id="id" value="<?=$_POST['id'];?>">
                 </form>
 
             </div>
