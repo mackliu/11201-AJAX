@@ -8,7 +8,7 @@ foreach($students as $student){
     echo "<div class='m-2'>";
     echo $student['name']. '-'.$student['birthday'];
     echo "-";
-    echo "<button class='btn btn-success mx-2'>編輯</button>";
+    echo "<button class='btn btn-success mx-2 edit' data-id='{$student['id']}'>編輯</button>";
     echo "<button class='btn btn-danger del' data-id='{$student['id']}' >刪除</button>";
     echo "</div>";
 }

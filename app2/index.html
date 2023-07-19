@@ -106,12 +106,13 @@ function allStudents(){
     students.forEach((stu)=>{
       list=list+"<div class='m-2'>";
       list=list + stu.name + '-' + stu.birthday;
-      list=list+"<button class='btn btn-success mx-2'>編輯</button>";
+      list=list+`<button class='btn btn-success mx-2 edit' data-id='${stu.id}'>編輯</button>`;
       list=list+`<button class='btn btn-danger del' data-id='${stu.id}'>刪除</button>`;
       list=list +"</div>";
     })
     $("#students").html(list);
     regDel();
+    regEdit()
     
   })
 }
@@ -134,6 +135,24 @@ function regDel(){
 
     })
 }
+function regEdit(){
+  $(".edit").on('click',function(){
+      let id=$(this).data('id')
+
+      $("#modal").load("edit_form.php",{id},function(){
+        mod=document.getElementById("editModal")
+        windows=new bootstrap.Modal(mod)
+        windows.show()
+
+         mod.addEventListener("hidden.bs.modal",function(){
+           $("#modal").html("")
+           windows.dispose()
+           queryClasses();
+        })
+      })
+
+    })
+}
 
 let now;
 
@@ -142,11 +161,12 @@ function query(classroom){
   $.get("./api/query.php",{classroom},(students)=>{
     $("#students").html(students)
       regDel();
+      regEdit()
   })
 }
 
 //編輯資料的函式
-function update(){
+function editStudent(){
 
 }
 
